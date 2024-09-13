@@ -10,3 +10,5 @@ Route::get('/',function(){
 });
 
 Route::get('/download/{path}', [FileController::class, 'getFile'])->where('path', '.*');
+
+Route::get('/files/{path}', [FileController::class, 'listFilesInDirectory'])->where('path', '.*');

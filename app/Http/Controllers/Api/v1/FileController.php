@@ -17,4 +17,26 @@ class FileController extends Controller
 
         return response($file, 200, $headers)->header('Content-Disposition', 'attachment; filename=' . $name);
     }
+
+    public function listFilesInDirectory(String $directory)
+    {
+        $files = Storage::disk('minio')->listContents($directory)->toArray();
+
+        // Format the files array to only include the necessary details
+        $formattedFiles = array_map(function ($file) {
+            $formattedFile = [
+                'name' => basename($file['path']),
+                'type' => $file['type'],
+                'last_modified' => $file['lastModified'],
+            ];
+
+            if ($file['type'] === 'file') {
+                $formattedFile['size'] = $file['fileSize'];
+            }
+
+            return $formattedFile;
+        }, $files);
+
+        return response()->json($formattedFiles);
+    }
 }
