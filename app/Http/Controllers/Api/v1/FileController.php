@@ -39,4 +39,18 @@ class FileController extends Controller
 
         return response()->json($formattedFiles);
     }
+
+    public function uploadFile(Request $request)
+    {
+        if (!$request->hasFile('file')) {
+            return response()->json(['error' => 'No file uploaded'], 400);
+        }
+
+        $file = $request->file('file');
+        $path = $file->getClientOriginalName();
+
+        Storage::disk('minio')->put($path, file_get_contents($file));
+
+        return response()->json(['message' => 'File uploaded successfully']);
+    }
 }
