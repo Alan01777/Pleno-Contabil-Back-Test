@@ -3,14 +3,34 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\v1\UserRequest;
 
 class UserController extends Controller
 {
-    public function getUser(){
-        $user = Auth::user();
+    private $userService;
 
-        return $user;
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    public function getUser()
+    {
+        return $this->userService->getUser();
+    }
+
+    public function updateUser(int $id, UserRequest $request)
+    {
+        dd($id, $request);
+        $data = $request->validated();
+
+        return $this->userService->updateUser($id, $data);
+    }
+
+    public function deleteUser(int $id)
+    {
+        return $this->userService->deleteUser($id);
     }
 }

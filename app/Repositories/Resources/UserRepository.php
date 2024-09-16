@@ -47,7 +47,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getById(int $userId): User
     {
-        $user = $this->user->with('tasks')->where('id', $userId)->first();
+        $user = $this->user->where('id', $userId)->first();
         if (!$user) {
             throw new NullValueException('No user found with id' . $userId);
         }
