@@ -66,7 +66,7 @@ class AuthService
         $credentials = array_intersect_key($data, array_flip(['email', 'password']));
         if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Dados Incorretos'
             ], 401);
         }
 
