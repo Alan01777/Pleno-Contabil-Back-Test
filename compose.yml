@@ -5,11 +5,13 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./:/var/www
+      - ./:/var/www/backend
       - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./certbot/www:/var/www/certbot/
+      - ./certbot/conf/:/etc/nginx/ssl/
     networks:
       - app-network
 
