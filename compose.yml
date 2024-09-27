@@ -59,7 +59,7 @@ services:
       - app-network
 
   app:
-    image: alan01777/pleno-back:latest
+    image: alan01777/pleno-backend:latest
     container_name: backend
     restart: always
     volumes:
