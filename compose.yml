@@ -64,8 +64,6 @@ services:
     image: alan01777/pleno-backend:latest
     container_name: backend
     restart: always
-    volumes:
-      - ./:/var/www
     networks:
       - app-network
 
