@@ -62,6 +62,8 @@ services:
 
   app:
     image: alan01777/pleno-backend:latest
+    env_file:
+      - .env
     container_name: backend
     restart: always
     networks:
