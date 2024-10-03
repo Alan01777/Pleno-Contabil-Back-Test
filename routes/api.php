@@ -24,5 +24,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('/user', [UserController::class, 'getUser'])->name('user.get');
-  Route::put('/user/{id}', [UserController::class, 'updateUser'])->name('user.update');
+  Route::put('/user/update', [UserController::class, 'updateUser'])->name('user.update');
 });

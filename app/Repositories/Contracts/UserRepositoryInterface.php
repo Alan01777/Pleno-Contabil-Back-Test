@@ -35,5 +35,5 @@ interface UserRepositoryInterface
      * @param int $userId The user ID.
      * @return null return null if the user was deleted successfully
      */
-    public function delete(int $userId): null;
+    public function delete(int $userId);
 }

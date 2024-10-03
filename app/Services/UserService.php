@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\Resources\UserRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Exceptions\NullValueException;
 
 class UserService
 {
@@ -25,19 +26,19 @@ class UserService
         return $currentUser;
     }
 
-    public function updateUser(int $id, array $data)
+    public function updateUser(array $data)
     {
         if (!Auth::check()) {
-            return response()->json(401);
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
 
         $currentUser = Auth::user();
 
-        if ($currentUser->id != $id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+        try {
+            $currentUser = $this->userRepository->update($currentUser->id, $data);
+            } catch (NullValueException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
         }
-
-        $currentUser = $this->userRepository->update($id, $data);
 
         return $currentUser;
     }

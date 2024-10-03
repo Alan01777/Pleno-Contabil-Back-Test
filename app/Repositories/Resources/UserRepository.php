@@ -64,7 +64,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function update(int $userId, array $data): User
     {
-        $user = $this->user->find($userId);
+        $user = $this->getById($userId);
         if (!$user) {
             throw new NullValueException('No user found with id: ' . $userId);
         }
@@ -78,13 +78,12 @@ class UserRepository implements UserRepositoryInterface
      * @param int $userId The ID of the user to delete.
      * @throws NullValueException If no user is found with the given ID.
      */
-    public function delete(int $userId): null
+    public function delete(int $userId)
     {
-        $user = $this->user->find($userId);
+        $user = $this->getById($userId);
         if (!$user) {
             throw new NullValueException('No user found with id' . $userId);
         }
         $user->delete();
-        return null;
     }
 }

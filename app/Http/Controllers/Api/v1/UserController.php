@@ -21,12 +21,11 @@ class UserController extends Controller
         return $this->userService->getUser();
     }
 
-    public function updateUser(int $id, UserRequest $request)
+    public function updateUser(UserRequest $request)
     {
-        dd($id, $request);
         $data = $request->validated();
 
-        return $this->userService->updateUser($id, $data);
+        return $this->userService->updateUser($data);
     }
 
     public function deleteUser(int $id)
