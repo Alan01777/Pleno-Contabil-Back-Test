@@ -36,6 +36,8 @@ class UserService
         $currentUser = Auth::user();
         $oldUser = $currentUser;
 
+        $subdirectories = ['PESSOAL/CONTRATOS', 'FISCAL/DAS', 'FISCAL/PARCELAMENTO', 'FISCAL/PIS', 'FISCAL/COFINS', 'FISCAL/ICMS', 'PESSOAL/FOLHAS', 'PESSOAL/FGTS', 'PESSOAL/CERTIDOES'];
+
         try {
             $currentUser = $this->userRepository->update($currentUser->id, $data);
 
@@ -50,6 +52,14 @@ class UserService
 
             // Delete the old directory
             Storage::disk('minio')->deleteDirectory($oldUser->razao_social);
+
+            // Create the remaining directories
+            foreach ($subdirectories as $subdirectory) {
+                $newSubdirectoryPath = $currentUser->razao_social . '/' . $subdirectory;
+                if (!Storage::disk('minio')->exists($newSubdirectoryPath)) {
+                    Storage::disk('minio')->makeDirectory($newSubdirectoryPath);
+                }
+            }
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
