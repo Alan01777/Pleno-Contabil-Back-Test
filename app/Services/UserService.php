@@ -38,8 +38,19 @@ class UserService
 
         try {
             $currentUser = $this->userRepository->update($currentUser->id, $data);
-            Storage::disk('minio')->move($oldUser->razao_social, $currentUser->razao_social);
-            } catch (\Exception $e) {
+
+            // Get all files in the old directory and its subdirectories
+            $files = Storage::disk('minio')->allFiles($oldUser->razao_social);
+
+            // Move each file to the new directory
+            foreach ($files as $file) {
+                $newPath = str_replace($oldUser->razao_social, $currentUser->razao_social, $file);
+                Storage::disk('minio')->move($file, $newPath);
+            }
+
+            // Delete the old directory
+            Storage::disk('minio')->deleteDirectory($oldUser->razao_social);
+        } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
 
