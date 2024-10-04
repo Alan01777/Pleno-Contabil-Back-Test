@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\Resources\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Exceptions\NullValueException;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
@@ -33,14 +34,16 @@ class UserService
         }
 
         $currentUser = Auth::user();
+        $oldUser = $currentUser;
 
         try {
             $currentUser = $this->userRepository->update($currentUser->id, $data);
-            } catch (NullValueException $e) {
-            return response()->json(['message' => $e->getMessage()], 404);
+            Storage::disk('minio')->move($$oldUser->razao_social, $currentUser->razao_social);
+            } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
         }
 
-        return $currentUser;
+        return response()->json($currentUser, 200);
     }
 
     public function deleteUser(int $id)
