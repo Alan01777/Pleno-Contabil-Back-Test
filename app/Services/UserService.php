@@ -38,7 +38,7 @@ class UserService
 
         try {
             $currentUser = $this->userRepository->update($currentUser->id, $data);
-            Storage::disk('minio')->move($$oldUser->razao_social, $currentUser->razao_social);
+            Storage::disk('minio')->move($oldUser->razao_social, $currentUser->razao_social);
             } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
