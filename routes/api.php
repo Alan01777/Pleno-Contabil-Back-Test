@@ -17,7 +17,7 @@ Route::prefix('auth')->group(function () {
 
   Route::prefix('password')->name('password.')->group(function () {
     Route::post('recovery', [AuthController::class, 'sendPasswordRecoveryToken'])->name('send_recovery_token');
-    Route::get('validate', [AuthController::class, 'validateToken'])->name('validate_token');
+    Route::post('validate', [AuthController::class, 'validateToken'])->name('validate_token');
     Route::put('reset', [AuthController::class, 'resetPassword'])->name('update_password');
   });
 });
