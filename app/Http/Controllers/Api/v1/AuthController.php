@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\v1\AuthRequest;
+use App\Http\Requests\v1\PasswordResetRequest;
+use App\Http\Requests\v1\PasswordTokenResetRequest;
+use App\Http\Requests\v1\SendPasswordResetEmailRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -59,5 +62,20 @@ class AuthController extends Controller
     public function logout(Request $request): JsonResponse
     {
         return $this->authService->logout($request);
+    }
+
+    public function sendPasswordRecoveryToken(SendPasswordResetEmailRequest $request)
+    {
+        return $this->authService->passwordRecovery($request);
+    }
+
+    public function validateToken(PasswordTokenResetRequest $request)
+    {
+        return $this->authService->validateToken($request);
+    }
+
+    public function resetPassword(PasswordResetRequest $request)
+    {
+        return $this->authService->resetPassword($request);
     }
 }

@@ -2,12 +2,23 @@
 
 namespace App\Services\Auth;
 
+use App\Http\Requests\v1\SendPasswordResetEmailRequest;
 use App\Http\Requests\v1\AuthRequest;
+use App\Http\Requests\v1\PasswordResetRequest;
+use App\Http\Requests\v1\PasswordTokenResetRequest;
+use App\Mail\RecoverPasswordEmail;
 use App\Repositories\Resources\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
+
 
 
 class AuthService
@@ -43,7 +54,7 @@ class AuthService
 
             $tokenResult = $user->createToken('Personal Access Token');
             $token = $tokenResult->plainTextToken;
-            
+
             return response()->json([
                 'message' => 'Successfully created user!',
                 'accessToken' => $token,
@@ -110,5 +121,62 @@ class AuthService
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
+    }
+
+
+
+    public function passwordRecovery(SendPasswordResetEmailRequest $request)
+    {
+        $data = $request->validated();
+        $user = $this->userRepository->findByEmail($data['email']);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+
+        // Generate a password reset token
+        $token = app('auth.password.broker')->createToken($user);
+
+        // Send the email
+        Mail::to($data['email'])->send(new RecoverPasswordEmail($user->razao_social, $token));
+
+        return response()->json(['message' => 'Password recovery email sent.']);
+    }
+
+    public function validateToken(PasswordTokenResetRequest $request)
+    {
+        $tokenData = $this->userRepository->getResetToken($request->token);
+
+        if (!$tokenData) {
+            return response()->json(['message' => 'Invalid token.'], 400);
+        }
+
+        return response()->json(['message' => 'Token is valid.'], 200);
+    }
+
+    public function resetPassword(PasswordResetRequest $request)
+    {
+        $token = $request->header('Authorization');
+
+        $tokenData = $this->userRepository->getResetToken($token);
+
+        if (!$tokenData) {
+            return response()->json(['message' => 'Invalid token.'], 400);
+        }
+
+        $user = $this->userRepository->findByEmail($tokenData->email);
+
+        if (!$user) {
+            return response()->json(['message' => 'User does not exist.'], 404);
+        }
+
+        $data = $request->validated();
+
+        $this->userRepository->updatePassword($user, $data['password']);
+
+        // Delete the token
+        $this->userRepository->deleteResetToken($user->email);
+
+        return response()->json(['message' => 'Password has been updated.']);
     }
 }

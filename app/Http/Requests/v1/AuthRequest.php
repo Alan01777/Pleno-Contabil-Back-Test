@@ -31,7 +31,7 @@ class AuthRequest extends FormRequest
                 'endereco' => 'required|string',
                 'telefone' => 'required|string',
                 'email' => 'required|string|unique:users',
-                'password' => 'required|string',
+                'password' => 'required|string|min:8',
                 'c_password' => 'required|same:password',
             ];
         }
@@ -54,18 +54,19 @@ class AuthRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'cnpj.required' => 'The CNPJ field is required.',
-            'cnpj.unique' => 'The CNPJ has already been taken.',
-            'nome_fantasia.required' => 'The Nome Fantasia field is required.',
-            'razao_social.required' => 'The Razao Social field is required.',
-            'razao_social.unique' => 'The Razao Social has already been taken.',
-            'endereco.required' => 'The Endereco field is required.',
-            'telefone.required' => 'The Telefone field is required.',
-            'email.required' => 'The Email field is required.',
-            'email.unique' => 'The Email has already been taken.',
-            'password.required' => 'The Password field is required.',
-            'c_password.required' => 'The Confirm Password field is required.',
-            'c_password.same' => 'The Confirm Password must match the Password.',
+            'cnpj.required' => 'O campo CNPJ é obrigatório.',
+            'cnpj.unique' => 'Este CNPJ já está em uso.',
+            'nome_fantasia.required' => 'O campo Nome Fantasia é obrigatório.',
+            'razao_social.required' => 'O campo Razão Social é obrigatório.',
+            'razao_social.unique' => 'Esta Razão Social já está em uso.',
+            'endereco.required' => 'O campo Endereço é obrigatório.',
+            'telefone.required' => 'O campo Telefone é obrigatório.',
+            'email.required' => 'O campo Email é obrigatório.',
+            'email.unique' => 'Este Email já está em uso.',
+            'password.required' => 'O campo Senha é obrigatório.',
+            'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
+            'c_password.required' => 'O campo Confirmar Senha é obrigatório.',
+            'c_password.same' => 'A Confirmar Senha deve ser igual à Senha.',
         ];
     }
 

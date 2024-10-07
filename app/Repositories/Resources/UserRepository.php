@@ -5,6 +5,10 @@ namespace App\Repositories\Resources;
 use App\Http\Exceptions\NullValueException;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Models\PasswordResetToken;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -85,5 +89,57 @@ class UserRepository implements UserRepositoryInterface
             throw new NullValueException('No user found with id' . $userId);
         }
         $user->delete();
+    }
+
+    /**
+     * Find a user by their email address.
+     *
+     * @param string $email
+     * @return User|null
+     */
+    public function findByEmail(string $email): ?User
+    {
+        return User::where('email', $email)->first();
+    }
+
+    /**
+     * Get the reset token for a given token string.
+     *
+     * @param string $token
+     * @return PasswordReset|null
+     */
+    public function getResetToken(string $token): ?PasswordResetToken
+    {
+        $correctToken = PasswordResetToken::with('user')->first();
+
+        if (Hash::check($token, $correctToken->token)) {
+            return $correctToken;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Update the password for a given user.
+     *
+     * @param User $user
+     * @param string $password
+     * @return void
+     */
+    public function updatePassword(User $user, string $password): void
+    {
+        $user->password = Hash::make($password);
+        $user->save();
+    }
+
+    /**
+     * Delete the reset token for a given email.
+     *
+     * @param string $email
+     * @return void
+     */
+    public function deleteResetToken(string $email): void
+    {
+        DB::table('password_reset_tokens')->where('email', $email)->delete();
     }
 }
