@@ -55,4 +55,10 @@ class User extends Authenticatable
     {
         return $this->HasOne(PasswordResetToken::class);
     }
+
+
+    public function userPushToken(): HasOne
+    {
+        return $this->hasOne(UserPushToken::class);
+    }
 }
