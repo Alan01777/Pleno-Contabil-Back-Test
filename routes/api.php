@@ -23,11 +23,11 @@ Route::prefix('auth')->group(function () {
 });
 
 // File routes
-Route::middleware('auth:sanctum')->prefix('files')->group(function () {
-  Route::get('/{directory?}', [FileController::class, 'listFilesInDirectory'])->where('directory', '.*')->name('list');
-  Route::get('/file/{path}', [FileController::class, 'getFile'])->where('path', '.*')->name('get');
-  Route::post('/upload', [FileController::class, 'uploadFile'])->name('upload');
-  Route::delete('/file/{path}', [FileController::class, 'deleteFile'])->where('path', '.*')->name('delete');
+Route::middleware('auth:sanctum')->group(function () {
+  Route::get('/files/{directory?}', [FileController::class, 'listFilesInDirectory'])->where('directory', '.*')->name('files.list');
+  Route::get('/file/{path}', [FileController::class, 'getFile'])->where('path', '.*')->name('file.get');
+  Route::post('/upload', [FileController::class, 'uploadFile'])->name('file.upload');
+  Route::delete('/file/{path}', [FileController::class, 'deleteFile'])->where('path', '.*')->name('file.delete');
 });
 
 // User routes

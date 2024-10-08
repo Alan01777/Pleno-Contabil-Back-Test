@@ -17,6 +17,10 @@ class FileService {
     public function getFile(String $path)
     {
         try {
+            if (!Storage::disk('minio')->exists($path)) {
+                return response()->json(['error' => 'File not found'], 404);
+            }
+
             $file = Storage::disk('minio')->get($path);
             $name = basename($path);
             $headers = [
@@ -24,9 +28,7 @@ class FileService {
                 'Content-Disposition' => 'attachment; filename=' . $name,
             ];
 
-            return response()->stream(function () use ($file) {
-                echo $file;
-            }, 200, $headers);
+            return response()->make($file, 200, $headers);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
         }
