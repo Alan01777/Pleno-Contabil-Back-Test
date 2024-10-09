@@ -24,23 +24,23 @@ services:
   #      - app-network
 
 
-  # rabbitmq:
-  #   image: rabbitmq:3.13.1-management-alpine
-  #   container_name: rabbitmq
-  #   restart: always
-  #   hostname: rabbitmq
-  #   environment:
-  #     RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-  #     RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-  #     RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_DEFAULT_VHOST}
-  #   ports:
-  #     - "5672:5672"
-  #     - "15672:15672"
-  #   volumes:
-  #     - rabbitmq-data:/var/lib/rabbitmq
-  #     - ./.docker/logs/rabbitmq:/var/log/rabbitmq
-  #   networks:
-  #     - app-network
+  rabbitmq:
+    image: rabbitmq:3.13.1-management-alpine
+    container_name: rabbitmq
+    restart: always
+    hostname: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_DEFAULT_VHOST}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+      - ./.docker/logs/rabbitmq:/var/log/rabbitmq
+    networks:
+      - app-network
 
   bucket:
     image: bitnami/minio:2024-debian-12

@@ -35,7 +35,6 @@ Route::middleware('auth:sanctum')->group(function () {
 // Push Token Notifications
 Route::middleware('auth:sanctum')->group(function () {
   Route::post('/pushToken', [UserPushTokenController::class, 'storeToken']);
- 
 });
 
 Route::post('/minio-webhook', 'MinioController@handleWebhook');
