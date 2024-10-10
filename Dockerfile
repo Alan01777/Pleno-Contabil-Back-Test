@@ -1,4 +1,4 @@
-FROM composer:lts AS build
+FROM composer:lts AS builder
 
 WORKDIR /var/www/backend
 
@@ -10,7 +10,7 @@ FROM php:8.3-fpm-alpine AS runner
 
 WORKDIR /var/www/backend
 
-COPY --from=build /var/www/backend/vendor /var/www/backend/vendor
+COPY --from=builder /var/www/backend/vendor /var/www/backend/vendor
 
 # Copy application files
 COPY . /var/www/backend
