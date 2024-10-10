@@ -34,19 +34,23 @@ jobs:
           push: false
           tags: backend-initial:${{ env.short_sha }}
 
-      - name: Install squash
+      - name: Install squash and Dive
         run: |
           sudo apt install pipx
           pipx install docker-squash
+          pipx install dive
 
       - name: Squash Image
         run: |
           docker-squash -t alan01777/pleno-backend:${{ env.short_sha }} backend-initial:${{ env.short_sha }}
 
-
       - name: Tag Latest
         run: |
           docker tag alan01777/pleno-backend:${{ env.short_sha }} alan01777/pleno-backend:latest
+
+      - name: Dive Inspection
+        run: |
+          CI=true dive alan01777/pleno-backend:${{ env.short_sha }}
 
       - name: Push Images
         run: |
