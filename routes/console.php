@@ -3,7 +3,7 @@ use App\Models\UserPushToken;
 use Illuminate\Support\Facades\Schedule;
 use Illuminate\Support\Facades\Http;
 
-$schedule->call(function () {
+Schedule::call(function () {
     $tokens = UserPushToken::all();
 
     // Loop through the tokens and send the notification
