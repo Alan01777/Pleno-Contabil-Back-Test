@@ -5,13 +5,28 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      - "8443:443"
     volumes:
       - ./:/var/www/backend
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - ./certbot/www:/var/www/certbot/
       - ./certbot/conf/:/etc/nginx/ssl/
+    networks:
+      - app-network
+
+  db:
+    image: postgres:alpine3.20
+    container_name: db
+    restart: always
+    volumes:
+      - pg_data:/var/lib/postgres/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     networks:
       - app-network
 
@@ -53,8 +68,6 @@ services:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       - MINIO_DEFAULT_BUCKETS=${MINIO_DEFAULT_BUCKET}
-      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
-      - MINIO_SECRET_KEY={$MINIO_SECRET_KEY}
     volumes:
       - bucket:/bitnami/minio/data
     networks:
@@ -66,6 +79,11 @@ services:
       - .env
     container_name: backend
     restart: always
+    environment:
+      - POSTGRES_HOST=${DB_HOST}
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     networks:
       - app-network
 
@@ -75,3 +93,4 @@ networks:
 volumes:
   rabbitmq-data:
   bucket:
+  pg_data:
