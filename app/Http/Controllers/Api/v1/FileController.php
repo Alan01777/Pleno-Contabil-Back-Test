@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Services\FileService;
+use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
@@ -22,5 +23,10 @@ class FileController extends Controller
     public function listFilesInDirectory(String $directory = null)
     {
         return $this->fileService->listFilesInDirectory($directory);
+    }
+
+    public function uploadFile(Request $request)
+    {
+        return $this->fileService->uploadFile($request);
     }
 }

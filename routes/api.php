@@ -27,7 +27,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('/files/{directory?}', [FileController::class, 'listFilesInDirectory'])->where('directory', '.*')->name('files.list');
   Route::get('/file/{path}', [FileController::class, 'getFile'])->where('path', '.*')->name('file.get');
-  Route::post('/upload', [FileController::class, 'uploadFile'])->name('file.upload');
+  Route::post('/file/upload', [FileController::class, 'uploadFile'])->name('file.upload');
   Route::delete('/file/{path}', [FileController::class, 'deleteFile'])->where('path', '.*')->name('file.delete');
 });
 
@@ -36,8 +36,6 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
   Route::post('/pushToken', [UserPushTokenController::class, 'storeToken']);
 });
-
-Route::post('/minio-webhook', 'MinioController@handleWebhook');
 
 // User routes
 Route::middleware('auth:sanctum')->prefix('user')->group(function () {

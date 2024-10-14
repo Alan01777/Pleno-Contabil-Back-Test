@@ -2,16 +2,18 @@
 
 namespace App\Services;
 
+use App\Repositories\Resources\FileRepository;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use League\Flysystem\FileNotFoundException;
 
-class FileService {
+class FileService
+{
     private $disk;
-
-    public function __construct()
+    private $fileRepository;
+    public function __construct(FileRepository $fileRepository)
     {
         $this->disk = Storage::disk('minio');
+        $this->fileRepository = $fileRepository;
     }
 
     public function getFile(String $path)
@@ -59,5 +61,28 @@ class FileService {
         }, $files);
 
         return $formattedFiles;
+    }
+
+
+    public function uploadFile($request)
+    {
+        if (!$request->hasFile('file')) {
+            throw new \Exception('No file uploaded');
+        }
+
+        $file = $request->file('file');
+        $user = Auth::user();
+        $root = $user->razao_social;
+        // Get the original name of the file
+        $name = $user->razao_social . ' - ' . $file->getClientOriginalName();
+        $path = $root . $request->path;
+
+        Storage::putFileAs($path, $file, $name);
+
+        return $this->fileRepository->uploadFile([
+            'name' => $name,
+            'user_id' => $user->id,
+            'path' => $path
+        ]);
     }
 }
