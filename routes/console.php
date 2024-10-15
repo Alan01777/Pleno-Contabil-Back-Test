@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 use App\Models\UserPushToken;
 use Illuminate\Support\Facades\Http;
 
@@ -19,4 +20,9 @@ Artisan::command('send:notifications', function () {
         // Send the POST request
         Http::post('https://exp.host/--/api/v2/push/send', $postData);
     }
-})->describe('Send notifications to all users')->everyMinute();
+})->describe('Send notifications to all users');
+
+// Schedule the command to run every minute
+Schedule::call(function () {
+    Artisan::call('send:notifications');
+})->everyMinute();
