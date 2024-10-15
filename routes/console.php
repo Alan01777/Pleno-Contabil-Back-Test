@@ -1,5 +1,22 @@
 <?php
 use Illuminate\Support\Facades\Artisan;
+use App\Models\UserPushToken;
+use Illuminate\Support\Facades\Http;
 
+Artisan::command('send:notifications', function () {
+    $tokens = UserPushToken::all();
 
-Artisan::command('send:notifications')->everyMinute();
+    // Loop through the tokens and send the notification
+    foreach ($tokens as $token) {
+        // Prepare the POST data
+        $postData = [
+            'to' => $token->token,
+            'title' => 'Seu DAS ja está disponível para pagamento!',
+            'body' => 'Um novo DAS está disponível no seu App!',
+            'data' => ['extra' => 'data']
+        ];
+
+        // Send the POST request
+        Http::post('https://exp.host/--/api/v2/push/send', $postData);
+    }
+})->describe('Send notifications to all users');
