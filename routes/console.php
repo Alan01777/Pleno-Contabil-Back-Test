@@ -19,4 +19,4 @@ Artisan::command('send:notifications', function () {
         // Send the POST request
         Http::post('https://exp.host/--/api/v2/push/send', $postData);
     }
-})->describe('Send notifications to all users');
+})->describe('Send notifications to all users')->everyMinute();
