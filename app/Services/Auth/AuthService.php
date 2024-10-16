@@ -47,7 +47,17 @@ class AuthService
             Storage::disk('minio')->makeDirectory($userDirectory);
 
             // Create subdirectories
-            $subdirectories = ['PESSOAL/CONTRATOS', 'FISCAL/DAS', 'FISCAL/PARCELAMENTO', 'FISCAL/PIS', 'FISCAL/COFINS', 'FISCAL/ICMS', 'PESSOAL/FOLHAS', 'PESSOAL/FGTS', 'PESSOAL/CERTIDOES'];
+            $subdirectories = [
+                'PESSOAL/CONTRATOS',
+                'FISCAL/DAS',
+                'FISCAL/PARCELAMENTO',
+                'FISCAL/PIS',
+                'FISCAL/COFINS',
+                'FISCAL/ICMS',
+                'PESSOAL/FOLHAS',
+                'PESSOAL/FGTS',
+                'CERTIDOES'
+            ];
             foreach ($subdirectories as $subdirectory) {
                 Storage::disk('minio')->makeDirectory($userDirectory . '/' . $subdirectory);
             }
