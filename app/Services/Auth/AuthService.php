@@ -92,6 +92,12 @@ class AuthService
         }
 
         $user = $request->user();
+
+        // Revoke all tokens for the user
+        $user->tokens()->each(function ($token, $key) {
+            $token->delete();
+        });
+
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->plainTextToken;
 
@@ -100,7 +106,6 @@ class AuthService
             'token_type' => 'Bearer',
         ]);
     }
-
     /**
      * Get the authenticated user.
      *
