@@ -13,11 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
 
 
 
@@ -48,6 +43,8 @@ class AuthService
 
             // Create subdirectories
             $subdirectories = [
+                'EMPRESA',
+                'FATURAMENTOS',
                 'PESSOAL/CONTRATOS',
                 'FISCAL/DAS',
                 'FISCAL/PARCELAMENTO',
