@@ -38,6 +38,7 @@ class AuthService
         if (isset($data['razao_social'])) {
             $data['razao_social'] = strtoupper($data['razao_social']);
         }
+
         if (isset($data['nome_fantasia'])) {
             $data['nome_fantasia'] = strtoupper($data['nome_fantasia']);
         }
@@ -142,8 +143,6 @@ class AuthService
             'message' => 'Successfully logged out'
         ]);
     }
-
-
 
     public function passwordRecovery(SendPasswordResetEmailRequest $request)
     {

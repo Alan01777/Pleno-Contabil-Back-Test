@@ -27,24 +27,33 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Backend Image
-        uses: docker/build-push-action@v6
+      - name: Cache Dive and Docker-Squash installations
+        uses: actions/cache@v2
         with:
-          context: .
-          push: false
-          tags: backend-initial:${{ env.short_sha }}
+          path: |
+            /usr/local/bin/dive
+            ~/.local/bin/docker-squash
+          key: ${{ runner.os }}-dive-docker-squash-${{ hashFiles('**/push_image.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-dive-docker-squash-
 
       - name: Install Dive
         run: |
-          DIVE_VERSION=$(curl -sL "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
-          curl -OL https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.deb
-          sudo apt install ./dive_${DIVE_VERSION}_linux_amd64.deb
+          if ! command -v dive &> /dev/null
+          then
+            DIVE_VERSION=$(curl -sL "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+            curl -OL https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.deb
+            sudo apt install ./dive_${DIVE_VERSION}_linux_amd64.deb
+          fi
 
       - name: Install Docker-Squash
         run: |
-          sudo apt install pipx
-          pipx install docker-squash
-          
+          if ! command -v docker-squash &> /dev/null
+          then
+            sudo apt install pipx
+            pipx install docker-squash
+          fi
+
       - name: Squash Image
         run: |
           docker-squash -t alan01777/pleno-backend:${{ env.short_sha }} backend-initial:${{ env.short_sha }}
