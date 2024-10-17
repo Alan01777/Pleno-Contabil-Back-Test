@@ -12,9 +12,6 @@ WORKDIR /var/www/backend
 
 COPY --from=builder /var/www/backend/vendor /var/www/backend/vendor
 
-# Copy application files
-COPY . /var/www/backend
-
 # Install dependencies and clean up in the same layer
 RUN apk add --no-cache \
     libpng-dev \
@@ -25,6 +22,10 @@ RUN apk add --no-cache \
     addgroup -g 1000 www && \
     adduser -u 1000 -S www -G www && \
     chown -R www:www /var/www
+
+
+# Copy application files
+COPY . /var/www/backend
 
 USER www
 
