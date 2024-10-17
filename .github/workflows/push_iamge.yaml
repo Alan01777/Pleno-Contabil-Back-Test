@@ -37,6 +37,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           push: false
+          load: true
           tags: backend-initial:${{ env.short_sha }}
 
       - name: Install Dive
