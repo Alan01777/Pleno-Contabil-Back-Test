@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 
-
 class AuthService
 {
     protected UserRepository $userRepository;
@@ -34,6 +33,15 @@ class AuthService
     public function register(AuthRequest $request): JsonResponse
     {
         $data = $request->validated();
+
+        // Convert "razao_social" and "nome_fantasia" to uppercase
+        if (isset($data['razao_social'])) {
+            $data['razao_social'] = strtoupper($data['razao_social']);
+        }
+        if (isset($data['nome_fantasia'])) {
+            $data['nome_fantasia'] = strtoupper($data['nome_fantasia']);
+        }
+
         $user = $this->userRepository->create($data);
 
         if ($user->save()) {
