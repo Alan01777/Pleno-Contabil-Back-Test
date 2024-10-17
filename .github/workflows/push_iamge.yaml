@@ -42,7 +42,7 @@ jobs:
 
       - name: Tag Latest
         run: |
-          alan01777/pleno-backend:${{ env.short_sha }} alan01777/pleno-backend:latest
+          docker tag alan01777/pleno-backend:${{ env.short_sha }} alan01777/pleno-backend:latest
 
       - name: Push Images
         run: |
