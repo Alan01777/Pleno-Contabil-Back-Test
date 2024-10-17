@@ -1,0 +1,8 @@
+nginx/
+.github/
+.env.example
+.gitattributes
+.gitignore
+Dockerfile
+README.md
+.docker/
