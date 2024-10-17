@@ -67,3 +67,4 @@ jobs:
         run: |
           docker push alan01777/pleno-backend:${{ env.short_sha }}
           docker push alan01777/pleno-backend:latest
+          
