@@ -1,0 +1,6 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-action.json": ["**/*.yaml"]
+    },
+    "github-actions.ignoreProblems": ["short_sha"]
+}
