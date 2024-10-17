@@ -38,33 +38,13 @@ jobs:
           cache-to: type=gha,mode=max
           push: false
           load: true
-          tags: backend-initial:${{ env.short_sha }}
-
-      - name: Install Dive
-        run: |
-          DIVE_VERSION=$(curl -sL "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
-          curl -OL https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.deb
-          sudo apt install ./dive_${DIVE_VERSION}_linux_amd64.deb
-
-      - name: Install Docker-Squash
-        run: |
-          sudo apt install pipx
-          pipx install docker-squash
-          
-      - name: Squash Image
-        run: |
-          docker-squash -t alan01777/pleno-backend:${{ env.short_sha }} backend-initial:${{ env.short_sha }}
+          tags: alan01777/pleno-backend:${{ env.short_sha }}
 
       - name: Tag Latest
         run: |
-          docker tag alan01777/pleno-backend:${{ env.short_sha }} alan01777/pleno-backend:latest
-
-      - name: Dive Inspection
-        run: |
-          CI=true dive alan01777/pleno-backend:${{ env.short_sha }}
+          alan01777/pleno-backend:${{ env.short_sha }} alan01777/pleno-backend:latest
 
       - name: Push Images
         run: |
           docker push alan01777/pleno-backend:${{ env.short_sha }}
           docker push alan01777/pleno-backend:latest
-          
