@@ -2,6 +2,27 @@
 
 Este projeto foi desenvolvido para suportar o frontend (aplicativo móvel) do `Pleno Contabilidade`.
 
+## Sumário
+1. [Visão Geral](#visão-geral)
+2. [Funcionalidades Básicas](#funcionalidades-básicas)
+3. [Serviços Utilizados no Projeto](#serviços-utilizados-no-projeto)
+   - [App](#app)
+   - [Nginx](#nginx)
+   - [DB](#db)
+   - [Minio](#minio)
+4. [Configuração/Setup](#configuraçãoconfiguração-setup)
+   - [Banco de Dados](#banco-de-dados)
+   - [Emails](#emails)
+   - [Minio - Bucket](#minio---bucket)
+5. [Subindo os Containers](#subindo-os-containers)
+6. [Endpoints da API](#endpoints-da-api)
+   - [Autenticação](#autenticação)
+   - [Recuperação de Senha](#recuperação-de-senha)
+   - [Operações de Arquivo](#operações-de-arquivo)
+   - [Notificações de Token de Push](#notificações-de-token-de-push)
+   - [Operações de Usuário](#operações-de-usuário)
+
+
 ## Visão Geral
 
 O principal objetivo do projeto é fornecer e gerenciar arquivos em um bucket (container MinIO), além de fazer o gerenciamento de usuários cadastrados no aplicativo.
@@ -40,6 +61,8 @@ Cada usuário cadastrado terá diretórios próprios criados automaticamente den
 - EMPRESA
 - FATURAMENTOS
 
+É possível acessar a interface gráfica do MinIO através da porta 9001.
+
 ### Nginx
 
 Utilizamos o Nginx como reverse-proxy em conjunto com o PHP-fpm para permitir a comunicação adequada com o Laravel. As requisições chegam através do Nginx, são processadas pelo container do Laravel e a resposta é enviada ao cliente pelo Nginx.
@@ -72,7 +95,7 @@ Antes de subir os containers do projeto, é preciso criar um arquivo `.env`. Nel
 
 ### Banco de Dados
 
-```text
+```Shell
 DB_CONNECTION=pgsql
 DB_HOST=db
 DB_PORT=5432
@@ -85,7 +108,7 @@ As credencias a serem usadas pelo banco de dados.
 
 ### Emails
 
-```text
+```Shell
 MAIL_MAILER=smtp
 MAIL_HOST=your_mail_host
 MAIL_PORT=your_port
@@ -100,7 +123,7 @@ Preencha com as informações do seu mail provider, como brevo, mailchimp, etc.
 
 ### Minio - Bucket
 
-```text
+```Shell
 MINIO_ENDPOINT=http://bucket:9000
 MINIO_USE_PATH_STYLE_ENDPOINT=true
 MINIO_ACCESS_KEY=some_key
@@ -229,5 +252,3 @@ Estes endpoints requerem autenticação.
             "password": "senha_segura",
     }
     ```
-
-### Endpoints - Containers
