@@ -62,10 +62,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserPushToken::class);
     }
-
-
-    public function files(): HasMany
-    {
-        return $this->hasMany(File::class);
-    }
 }
