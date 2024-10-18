@@ -225,7 +225,7 @@ Estes endpoints requerem autenticação.
 * `GET /files/{directory?}`: Lista arquivos em um diretório.
 * `GET /file/{path}`: Obtém um arquivo específico.
 * `POST /file/upload`: Faz o upload de um arquivo.
-  * Corpo da Solicitação: Dados do formulário com arquivo.
+* Corpo da Solicitação: Dados do formulário com arquivo.
 * `DELETE /file/{path}`: Deleta um arquivo específico.
 
 ### Notificações de Token de Push
