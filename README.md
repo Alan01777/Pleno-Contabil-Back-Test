@@ -49,17 +49,21 @@ O projeto utiliza quatro serviços para seu funcionamento completo. Esses servi�
 
 Cada usuário cadastrado terá diretórios próprios criados automaticamente dentro do bucket. Os diretórios são:
 
-- PESSOAL/CONTRATOS
-- FISCAL/DAS
-- FISCAL/PARCELAMENTO
-- FISCAL/PIS
-- FISCAL/COFINS
-- FISCAL/ICMS
-- PESSOAL/FOLHAS
-- PESSOAL/FGTS
-- CERTIDOES
-- EMPRESA
-- FATURAMENTOS
+```Shell
+├── PESSOAL 
+│ ├── CONTRATOS 
+│ ├── FOLHAS 
+│ └── FGTS 
+├── FISCAL 
+│ ├── DAS 
+│ ├── PARCELAMENTO 
+│ ├── PIS 
+│ ├── COFINS 
+│ └── ICMS 
+├── CERTIDOES 
+├── EMPRESA 
+└── FATURAMENTOS
+```
 
 É possível acessar a interface gráfica do MinIO através da porta 9001.
 
