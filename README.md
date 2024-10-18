@@ -148,6 +148,8 @@ Serão geradas duas chaves, as quais deverão ser inseridas nos campos `MINIO_AC
 Com o arquivo `.env` propriamente criado e configurado, suba os containers usando o docker:
 `docker compose up -d`.
 
+Após subir os containers, use o comando `docker compose exec app php artisan key:generate` para poder gerar a chave da aplição do Laravel.
+
 ## Endpoints da API
 
 A aplicação roda nas portas 80 (HTTP) e 443 (HTTPS).
