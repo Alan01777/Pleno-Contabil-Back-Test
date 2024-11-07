@@ -25,7 +25,7 @@ RUN apk add --no-cache \
 
 
 # Copy application files
-COPY . /var/www/backend
+COPY --chown=www:www . /var/www/backend
 
 USER www
 
