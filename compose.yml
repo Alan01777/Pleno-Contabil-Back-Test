@@ -55,7 +55,9 @@ services:
       - app-network
 
   backend:
-    image: alan01777/pleno-backend:latest
+    build: .
+    volumes:
+      - .:/var/www/backend
     env_file:
       - .env
     container_name: backend
