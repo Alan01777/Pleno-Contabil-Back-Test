@@ -30,4 +30,4 @@ COPY --chown=www:www . /var/www/backend
 USER www
 
 EXPOSE 9000
-CMD ["php-fpm"]
+CMD ["/bin/sh", "-c", "php artisan migrate && php-fpm"]

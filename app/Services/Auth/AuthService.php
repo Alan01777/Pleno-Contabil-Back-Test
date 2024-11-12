@@ -56,6 +56,7 @@ class AuthService
                 'contabilidade/certidoes',
                 'contabilidade/certificados',
                 'contabilidade/balancos',
+                'contabilidade/documentacao', // Adicionado
                 'fiscal',
                 'fiscal/cofins',
                 'fiscal/csll',
@@ -69,7 +70,8 @@ class AuthService
                 'pessoal',
                 'pessoal/fgts',
                 'pessoal/folhas',
-                'pessoal/pro-labore'
+                'pessoal/pro-labore',
+                'pessoal/contratos' // Adicionado
             ];
             foreach ($subdirectories as $subdirectory) {
                 Storage::disk('minio')->makeDirectory($userDirectory . '/' . $subdirectory);

@@ -5,7 +5,7 @@ namespace App\Http\Requests\v1;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-
+use Illuminate\Support\Facades\Route; // Add this import statement
 class AuthRequest extends FormRequest
 {
     /**
@@ -23,11 +23,12 @@ class AuthRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->routeIs('register')) {
+        if ($this->routeIs('register')) { // Use the routeIs method from the Route facade
             return [
                 'cnpj' => 'required|string|unique:users',
                 'nome_fantasia' => 'required|string',
                 'razao_social' => 'required|string|unique:users',
+                'porte' => 'required|string|in:MEI,ME,EPP,LTDA,SA',
                 'endereco' => 'required|string',
                 'telefone' => 'required|string',
                 'email' => 'required|string|unique:users',

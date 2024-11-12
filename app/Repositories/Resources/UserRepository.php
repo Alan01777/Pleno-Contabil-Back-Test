@@ -31,6 +31,7 @@ class UserRepository implements UserRepositoryInterface
             'cnpj' => $data['cnpj'],
             'razao_social' => $data['razao_social'],
             'nome_fantasia' => $data['nome_fantasia'],
+            'porte' => $data['porte'],
             'endereco' => $data['endereco'],
             'telefone' => $data['telefone'],
             'email' => $data['email'],

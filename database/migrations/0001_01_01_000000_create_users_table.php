@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('cnpj')->unique();
             $table->string('razao_social');
             $table->string('nome_fantasia');
+            $table->string('porte');
             $table->string('endereco');
             $table->string('telefone');
             $table->string('email')->unique();
