@@ -82,4 +82,9 @@ class UserService
 
         return response()->json(['message' => 'User deleted successfully']);
     }
+
+    public function newUserRequest()
+    {
+        
+    }
 }
