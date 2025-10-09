@@ -6,7 +6,7 @@ COPY composer.lock composer.json /var/www/backend/
 
 RUN composer install --no-dev --no-scripts
 
-FROM php:8.3-fpm-alpine AS runner
+FROM php:8.4.0RC4-fpm-alpine AS runner
 
 WORKDIR /var/www/backend
 
